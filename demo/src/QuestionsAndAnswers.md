@@ -208,7 +208,7 @@ How to handle Optional in Java? Use methods like isPresent(), ifPresent(), orEls
          - You want to log/audit every action (finance, compliance). 
          - You may need undo/compensation (failed transfers). 
          - You want a uniform interface for many different operations.
-10. `@Repository` in java sprint boot why to use it?
+10. ## `@Repository` in java sprint boot why to use it?
     - 🧱 What @Repository Actually Does 
       - Specialization of @Component 
         - Like @Component, it makes the class a Spring bean. 
@@ -221,3 +221,33 @@ How to handle Optional in Java? Use methods like isPresent(), ifPresent(), orEls
         - @Controller → web layer 
         - @Service → business logic 
         - @Repository → data access layer Using these annotations makes your codebase easier to read and maintain.
+11. ## Why to use Record in Java?
+    - 💡 Think of Records as Java’s way of saying: “Sometimes you just need a clean, immutable data bag without ceremony.”
+    - Here’s why you’d use them:
+      - Conciseness ✨ Records automatically generate constructors, equals(), hashCode(), and toString() methods. No need to write all that boilerplate yourself. 
+      - Immutability by default 🔒 Fields in a record are final. Once created, the data can’t be changed, which makes reasoning about state much easier — especially in concurrent or distributed systems. 
+      - Clear intent 📖 Declaring something as a record signals: this is just a data carrier. It’s not meant to hold business logic, only state. 
+      - Pattern matching synergy 🧩 Records integrate beautifully with Java’s newer features like pattern matching for switch and instanceof. That makes destructuring and working with data much more intuitive. 
+      - Serialization and DTOs 📦 Perfect for modeling request/response objects in APIs, database row mappings, or configuration values where you just need to carry data around.
+      - | Feature                                | Record (Java 16+)                                                            | Regular Class                          | Lombok `@Data`                                              |
+        |----------------------------------------|------------------------------------------------------------------------------|----------------------------------------|-------------------------------------------------------------|
+        | **Boilerplate**                        | Minimal — constructor, `equals()`, `hashCode()`, `toString()` auto‑generated | High — must write all methods manually | Reduced — Lombok generates boilerplate at compile time      |
+        | **Immutability**                       | Fields are `final` by default → immutable                                    | Mutable unless explicitly coded        | Mutable by default, but can be made immutable with `@Value` |
+        | **Intent clarity**                     | Signals “data carrier only”                                                  | Can mix data + behavior                | Can mix data + behavior                                     |
+        | **Integration with new Java features** | Works with pattern matching, sealed classes, switch expressions              | No special integration                 | No special integration                                      |
+        | **Dependencies**                       | Pure Java, no external library                                               | Pure Java                              | Requires Lombok dependency and IDE support                  |
+        | **Serialization / DTO use**            | Excellent for DTOs, API payloads, configs                                    | Works but verbose                      | Works well, especially for DTOs                             |
+        | **Extensibility**                      | Cannot extend other classes (records are implicitly `final`)                 | Fully extensible                       | Fully extensible                                            |
+        | **Readability**                        | Very concise, intent obvious                                                 | Verbose                                | Concise, but requires Lombok knowledge                      |
+12. ## RequestBody in Java spring boot
+    - In Spring Boot, the @RequestBody annotation is used to bind the body of an HTTP request (usually JSON or XML) directly to a Java object. 
+    - It tells Spring to automatically deserialize the request payload into the method parameter using an HttpMessageConverter.
+    - | Feature                | @RequestBody                                        | @RequestParam                                                                 | @PathVariable                                             |
+      |------------------------|-----------------------------------------------------|-------------------------------------------------------------------------------|-----------------------------------------------------------|
+      | **Purpose**            | Binds the entire HTTP request body to a Java object | Extracts query parameters from the URL                                        | Extracts values from the URI path                         |
+      | **Typical Use Case**   | Handling JSON/XML payloads in POST/PUT requests     | Reading simple key-value pairs from query string                              | Mapping dynamic segments of the URL                       |
+      | **Data Format**        | JSON, XML, or raw body content                      | String, int, boolean, etc. (simple types)                                     | String, int, etc. (path variables)                        |
+      | **Example URL**        | POST `/accounts/create` with JSON body              | GET `/search?keyword=java&limit=10`                                           | GET `/accounts/123`                                       |
+      | **Controller Example** | `public String create(@RequestBody Account acc)`    | `public String search(@RequestParam String keyword, @RequestParam int limit)` | `public String get(@PathVariable("id") String accountId)` |
+      | **Validation**         | Works with `@Valid` for complex DTOs                | Works with `@Valid` only if bound to object                                   | Works with `@Valid` only if bound to object               |
+      | **Best For**           | Complex request payloads (DTOs, JSON objects)       | Optional/simple query parameters                                              | Identifiers in RESTful resource paths                     |
