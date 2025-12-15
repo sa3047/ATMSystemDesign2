@@ -1,12 +1,11 @@
 # ✅ Why not just return Account or null?
-- Because:
-Returning null is error‑prone
-Returning Account forces you to invent a fake “empty” object
-Returning Optional<Account> makes the contract explicit: “This method may return nothing. Handle it.”
-How to handle Optional in Java? Use methods like isPresent(), ifPresent(), orElse(), orElseGet(), orElseThrow() to work with the value safely.
-- ✅ 1. Throw an exception if not found 
-- ✅ 2. Provide a default value 
-- ✅ 3. Execute a block of code if present
+- Because, returning null is error‑prone 
+- Returning Account forces you to invent a fake “empty” object 
+- Returning Optional<Account> makes the contract explicit: “This method may return nothing. Handle it.”
+- How to handle Optional in Java? Use methods like isPresent(), ifPresent(), orElse(), orElseGet(), orElseThrow() to work with the value safely.
+  - ✅ 1. Throw an exception if not found 
+  - ✅ 2. Provide a default value 
+  - ✅ 3. Execute a block of code if present
 
 # ✅ How to handle database errors?
 1. Optional is NOT for database errors. It only represents “no row found”.
